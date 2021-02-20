@@ -1,8 +1,12 @@
+# -*- coding:utf-8 -*-
+
 """
 Helpers for comparing version strings.
 
 .. versionadded:: 1.6
 """
+
+from __future__ import absolute_import
 
 import six
 
