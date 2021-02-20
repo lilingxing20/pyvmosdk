@@ -14,10 +14,14 @@ from .tools import constants
 LOG = logging.getLogger(__name__)
 
 
-class VMClient(BaseClient):
+class NetworkClient(BaseClient):
     """
     VMware Manager Network Client.
     """
+
+    def __init__(self, vc_info):
+        super(NetworkClient, self).__init__(vc_info)
+
     def create_vswtich(self, host_moid, dvpg):
         pass
 

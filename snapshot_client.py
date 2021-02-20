@@ -20,6 +20,9 @@ class VMSnapshotClient(BaseClient):
     VMware Manager VM Snapshot Client.
     """
 
+    def __init__(self, vc_info):
+        super(VMSnapshotClient, self).__init__(vc_info)
+
     def _get_vm_snapshot_mor(self, vm_moid, snap_moid):
         """
         Get a snapshot moref of the VM.

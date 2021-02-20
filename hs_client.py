@@ -18,6 +18,10 @@ class HostClient(BaseClient):
     """
     VMware Manager ESXi Host Client.
     """
+
+    def __init__(self, vc_info):
+        super(HostClient, self).__init__(vc_info)
+
     def query_host_connection_info(self, dc_moid, auth_info):
         pass
 

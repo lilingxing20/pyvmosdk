@@ -19,6 +19,9 @@ class TemplateClient(BaseClient):
     VMware Manager VM Template Client.
     """
 
+    def __init__(self, vc_info):
+        super(TemplateClient, self).__init__(vc_info)
+
     def import_ova_template(self):
         pass
 

@@ -15,10 +15,13 @@ from .tools.result_utils import DataResult
 LOG = logging.getLogger(__name__)
 
 
-class VMClient(BaseClient):
+class FolderClient(BaseClient):
     """
     VMware Manager Folder Client.
     """
+
+    def __init__(self, vc_info):
+        super(FolderClient, self).__init__(vc_info)
 
     def create_folder(self, folder, folder_type='vm'):
         """

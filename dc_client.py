@@ -14,10 +14,13 @@ from .tools import constants
 LOG = logging.getLogger(__name__)
 
 
-class VMClient(BaseClient):
+class DatacenterClient(BaseClient):
     """
     VMware Manager Datacenter Client.
     """
+
+    def __init__(self, vc_info):
+        super(DatacenterClient, self).__init__(vc_info)
 
     def create_datacneter(self, dc):
         pass
