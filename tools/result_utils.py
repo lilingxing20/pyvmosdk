@@ -10,6 +10,7 @@ class DataResult(object):
         $ DataResult().status   # True/False
         $ DataResult().message  # ""
         $ DataResult().data     # {}
+        $ DataResult().task_key # ""
     字典使用方式：
         $ dict(DataResult())
     """
@@ -24,11 +25,14 @@ class DataResult(object):
         # 数据
         self.data = None
 
+        # 任务Key
+        self.task_key = ""
+
     def keys(self):
         """
         当对实例化对象使用dict(obj)的时候, 会调用这个方法,这里定义了字典的键, 其对应的值将以obj['name']的形式取
         """
-        return ('status', 'message', 'data')
+        return ('status', 'message', 'data', 'task_key')
 
     def __getitem__(self, item):
         """

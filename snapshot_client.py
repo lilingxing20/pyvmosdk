@@ -131,7 +131,7 @@ class VMSnapshotClient(BaseClient):
                                              snapshot["description"],
                                              snapshot["memory"],
                                              snapshot["quiesce"])
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -165,7 +165,7 @@ class VMSnapshotClient(BaseClient):
         try:
             snap_mor = self._get_vm_snapshot_mor(vm_moid, snap_moid)
             task_mor = snap_mor.RevertToSnapshot_Task()
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -180,7 +180,7 @@ class VMSnapshotClient(BaseClient):
         try:
             snap_mor = self._get_vm_current_snapshot_mor(vm_moid)
             task_mor = snap_mor.RevertToSnapshot_Task()
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -196,7 +196,7 @@ class VMSnapshotClient(BaseClient):
         try:
             snap_mor = self._get_vm_snapshot_mor(vm_moid, snap_moid)
             task_mor = snap_mor.RemoveSnapshot_Task(True)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -211,7 +211,7 @@ class VMSnapshotClient(BaseClient):
         try:
             vm_mor = self.get_vm_mor(vm_moid)
             task_mor = vm_mor.RemoveAllSnapshots()
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False

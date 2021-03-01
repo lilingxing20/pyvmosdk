@@ -32,7 +32,7 @@ class FolderClient(BaseClient):
             "parent_folder_moid": "group-v1|group-h1|group-s1|group-n1"
             "dc_moid": "datacenter-1"
         }
-        @param folder_type: "vm|host|network|datastore"
+        @param folder_type: "vm|host|network|datastore|datacenter"
         """
         result = DataResult()
         try:
@@ -43,7 +43,7 @@ class FolderClient(BaseClient):
                     folder['parent_folder_moid'])
             else:
                 # get datacenter root folder
-                dc_mor = self.get_datacenter_mor(folder['dc_moid'])
+                dc_mor = self.get_datacenter_mor(folder.get('dc_moid'))
                 if folder_type = 'vm':
                     parent_f_mor = dc_mor.vmFolder
                 elif folder_type = 'host':
@@ -52,6 +52,8 @@ class FolderClient(BaseClient):
                     parent_f_mor = dc_mor.networkFolder
                 elif folder_type = 'datastore':
                     parent_f_mor = dc_mor.datastoreFolder
+                elif folder_type = 'datacenter':
+                    parent_f_mor = self.si.content.rootFolder
                 else:
                     raise Exception("The folder type error: %s" % folder_type)
             try:
@@ -69,35 +71,48 @@ class FolderClient(BaseClient):
             result.message = "Create vm folder error: %s" % str(ex)
         return result
 
-    def create_vm_folder(self, folder, dc_moid):
+    def create_datacenter_folder(self, folder):
+        """
+        Create datacenter folder managed object.
+        """
+        return self.create_folder(folder, folder_type='datacenter')
+
+    def create_vm_folder(self, folder):
         """
         Create vm/template view folder managed object.
         """
         return self.create_folder(folder, folder_type='vm')
 
-    def create_host_folder(self, folder, dc_moid):
+    def create_host_folder(self, folder):
         """
         Create host view folder managed object.
         """
         return self.create_folder(folder, folder_type='host')
 
-    def create_network_folder(self, folder, dc_moid):
+    def create_network_folder(self, folder):
         """
         Create network view folder managed object.
         """
         return self.create_folder(folder, folder_type='network')
 
-    def create_datastore_folder(self, folder, dc_moid):
+    def create_datastore_folder(self, folder):
         """
         Create datastore view folder managed object.
         """
         return self.create_folder(folder, folder_type='datastore')
 
-    def delete_folder(self, folder_moid):
-        """ Delete vm/template view folder managed object.
+    def Destroy_folder(self, folder_moid):
+        """
+        Destroy folder managed object.
         """
         # get folder mor
-        folder_mor = utils.get_folder_mor(self.si, moid=folder_moid)
-        task_mor = folder_mor.Destroy()
-        task_state = task.WaitForTask(task_mor)
-        return task_state
+        result = DataResult()
+        try:
+            folder_mor = self.get_folder_mor(folder_moid)
+            task_mor = folder_mor.Destroy()
+            result.task_key = task_mor._moId
+        except Exception as ex:
+            LOG.exception(ex)
+            result.status = False
+            result.message = "Delete folder error: %s" % str(ex)
+        return result

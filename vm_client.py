@@ -103,7 +103,7 @@ class VMClient(BaseClient):
 
             task_mor = vmfolder_mor.CreateVM_Task(config=config_spec,
                                                   pool=res_pool_mor)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -187,7 +187,8 @@ class VMClient(BaseClient):
                         "num_core": vm_cfg['num_core'],
                         "memoryMB": vm_cfg['memoryMB']
                         }
-            result.data = {"task_key": task_mor._moId, 'vm_info': vm_info}
+            result.data = {'vm_info': vm_info}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -209,7 +210,7 @@ class VMClient(BaseClient):
                 result.message = "Not found VM: %s" % vm
             else:
                 task_mor = vm_mor.PowerOn()
-                result.data = {"task_key": task_mor._moId}
+                result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -228,7 +229,7 @@ class VMClient(BaseClient):
                 result.message = "Not found VM: %s" % vm
             else:
                 task_mor = vm_mor.PowerOff()
-                result.me = {"task_key": task_mor._moId}
+                result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -247,7 +248,7 @@ class VMClient(BaseClient):
                 result.message = "Not found VM: %s" % vm
             else:
                 task_mor = vm_mor.ResetVM_Task()
-                result.data = {"task_key": task_mor._moId}
+                result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -266,7 +267,7 @@ class VMClient(BaseClient):
                 result.message = "Not found VM: %s" % vm
             else:
                 task_mor = vm_mor.SuspendVM_Task()
-                result.data = {"task_key": task_mor._moId}
+                result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -329,7 +330,7 @@ class VMClient(BaseClient):
                 result.message = "Not found VM: %s" % vm
             else:
                 task_mor = vm_mor.Destroy_Task()
-                result.data = {"task_key": task_mor._moId}
+                result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -383,7 +384,7 @@ class VMClient(BaseClient):
             config_spec = vim.vm.ConfigSpec()
             config_spec.numCPUs = int(cpu_num)
             task_mor = vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -401,7 +402,7 @@ class VMClient(BaseClient):
             config_spec = vim.vm.ConfigSpec()
             config_spec.memoryMB = memoryMB
             task_mor = vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -423,7 +424,7 @@ class VMClient(BaseClient):
                 config_spec.deviceChange.append(disk_spec)
 
             task_mor = vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -474,8 +475,9 @@ class VMClient(BaseClient):
             if disk_enable_uuid:
                 extra_cfg = vm_utils.make_disk_enable_uuid_extra_config()
                 config_spec.deviceChange.append(extra_cfg)
+
             task_mor = vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -515,7 +517,7 @@ class VMClient(BaseClient):
                             break
 
             task_mor = vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -552,7 +554,7 @@ class VMClient(BaseClient):
                 config_spec.deviceChange.append(nic_spec)
 
             task_mor = vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -577,7 +579,7 @@ class VMClient(BaseClient):
                 config_spec.deviceChange.append(nic_spec)
 
             task_mor = vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -600,7 +602,7 @@ class VMClient(BaseClient):
                 config_spec.deviceChange.append(nic_spec)
 
             task_mor = vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -632,7 +634,7 @@ class VMClient(BaseClient):
         try:
             vm_mor= self.get_vm_mor(vm_moid)
             task_mor= vm_mor.UpgradeTools()
-            result.data= {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -658,7 +660,7 @@ class VMClient(BaseClient):
             else:
                 spec.tools.toolsUpgradePolicy= "manual"
             task_mor= vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data= {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -676,7 +678,7 @@ class VMClient(BaseClient):
             vm_mor= self.get_vm_mor(vm_moid)
             config_spec= vm_utils._make_extra_config(options)
             task_mor= vm_mor.ReconfigVM_Task(spec=config_spec)
-            result.data= {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -709,7 +711,7 @@ class VMClient(BaseClient):
             res_pool_mor = cluster_mor.resourcePool if cluster_mor else None
             priority = vim.VirtualMachine.MovePriority(priority)
             task_mor = vm_mor.Migrate(res_pool_mor, host_mor, priority)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
@@ -803,7 +805,7 @@ class VMClient(BaseClient):
             priority = vim.VirtualMachine.MovePriority(priority)
 
             task_mor = vm_mor.Relocate(relocate_spec, priority)
-            result.data = {"task_key": task_mor._moId}
+            result.task_key = task_mor._moId
         except Exception as ex:
             LOG.exception(ex)
             result.status = False
